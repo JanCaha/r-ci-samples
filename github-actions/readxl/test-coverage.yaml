@@ -28,8 +28,8 @@ jobs:
         uses: actions/cache@v1
         with:
           path: ${{ env.R_LIBS_USER }}
-          key: macOS-r-4.0-1-${{ hashFiles('.github/depends.Rds') }}
-          restore-keys: macOS-r-4.0-1-
+          key: macOS-r-3.6-${{ hashFiles('.github/depends.Rds') }}
+          restore-keys: macOS-r-3.6-
 
       - name: Install dependencies
         run: |
@@ -38,11 +38,6 @@ jobs:
           remotes::install_cran("covr")
         shell: Rscript {0}
 
-      - name: Configure Git user
-        run: |
-          git config --global user.email "ghau@example.com"
-          git config --global user.name "GitHub Actions User"
-
       - name: Test coverage
-        run: covr::codecov()
+        run: covr::codecov(line_exclusions = c("src/xls.c", "src/xlstool.c", "src/rapidxml.h", "src/rapidxml_print.h", "src/endian.c", "src/ole.c", "src/libxls/brdb.h"))
         shell: Rscript {0}
